@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СтройПрофи - Строительство под ключ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <span>СтройПрофи</span>
+            </div>
+            <ul class="nav__menu">
+                <li><a href="#home">Главная</a></li>
+                <li><a href="#about">О компании</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#portfolio">Портфолио</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+            <div class="nav__contact">
+                <a href="tel:+79991234567" class="phone">+7 (999) 123-45-67</a>
+                <button class="btn btn--primary">Заказать звонок</button>
+            </div>
+            <div class="nav__hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero__slider">
+            <div class="slide active">
+                <div class="slide__image" style="background-image: url('images/home1.jpg');"></div>
+                <div class="slide__content">
+                    <h1 class="slide__title">Строим будущее вместе с вами</h1>
+                    <p class="slide__subtitle">Профессиональное строительство и ремонт под ключ с гарантией качества</p>
+                    <div class="slide__buttons">
+                        <button class="btn btn--primary">Рассчитать стоимость</button>
+                        <button class="btn btn--outline">Наши работы</button>
+                    </div>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide__image" style="background-image: url('images/home2.jpg');"></div>
+                <div class="slide__content">
+                    <h1 class="slide__title">Инновационные решения</h1>
+                    <p class="slide__subtitle">Современные технологии и материалы для вашего комфорта</p>
+                    <div class="slide__buttons">
+                        <button class="btn btn--primary">Узнать больше</button>
+                        <button class="btn btn--outline">Технологии</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hero__controls">
+            <button class="control-btn prev">‹</button>
+            <button class="control-btn next">›</button>
+        </div>
+        <div class="hero__indicators">
+            <span class="indicator active"></span>
+            <span class="indicator"></span>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrow"></div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="about" class="features">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Почему выбирают нас</h2>
+                <p class="section-subtitle">Более 15 лет создаем комфорт и надежность для наших клиентов</p>
+            </div>
+
+            <div class="features__grid">
+                <div class="feature-card">
+                    <div class="feature-card__icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-card__title">Гарантия качества</h3>
+                    <p class="feature-card__description">Предоставляем гарантию до 10 лет на все виды строительных работ
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-card__icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 8V12L15 15M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-card__title">Соблюдение сроков</h3>
+                    <p class="feature-card__description">Строгое соблюдение оговоренных сроков с поэтапной отчетностью
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-card__icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M9 12L11 14L15 10M7.5 12H7.51M12 12H12.01M16.5 12H16.51M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                stroke="var(--primary-color)" stroke-width="2" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-card__title">Прозрачность работ</h3>
+                    <p class="feature-card__description">Ежедневные фотоотчеты и онлайн-доступ к ходу строительства</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-card__icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                            <path d="M20 7L12 3L4 7M20 7L12 11M20 7V17L12 21M12 11L4 7M12 11V21M4 7V17L12 21"
+                                stroke="var(--primary-color)" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <h3 class="feature-card__title">Опытные специалисты</h3>
+                    <p class="feature-card__description">Команда профессионалов с опытом работы от 5 лет</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наши услуги</h2>
+                <p class="section-subtitle">Полный спектр строительных и отделочных работ любой сложности</p>
+            </div>
+
+            <div class="services__grid">
+                <div class="service-card">
+                    <div class="service-card__image">
+                        <img src="images/home1.jpg" alt="Строительство домов" loading="lazy">
+                        <div class="service-card__overlay">
+                            <button class="btn btn--primary">Подробнее</button>
+                        </div>
+                    </div>
+                    <div class="service-card__content">
+                        <h3 class="service-card__title">Строительство домов</h3>
+                        <p class="service-card__description">От проектирования до сдачи под ключ. Каркасные, кирпичные,
+                            газобетонные дома.</p>
+                        <ul class="service-card__features">
+                            <li>Индивидуальное проектирование</li>
+                            <li>Все виды фундаментов</li>
+                            <li>Кровельные работы</li>
+                            <li>Внешняя отделка</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card__image">
+                        <img src="images/home2.jpg" alt="Ремонт под ключ" loading="lazy">
+                        <div class="service-card__overlay">
+                            <button class="btn btn--primary">Подробнее</button>
+                        </div>
+                    </div>
+                    <div class="service-card__content">
+                        <h3 class="service-card__title">Ремонт под ключ</h3>
+                        <p class="service-card__description">Комплексный ремонт квартир, офисов и коммерческих
+                            помещений.</p>
+                        <ul class="service-card__features">
+                            <li>Черновая отделка</li>
+                            <li>Чистовая отделка</li>
+                            <li>Электромонтажные работы</li>
+                            <li>Сантехнические работы</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card__image">
+                        <img src="images/home1.jpg" alt="Кровельные работы" loading="lazy">
+                        <div class="service-card__overlay">
+                            <button class="btn btn--primary">Подробнее</button>
+                        </div>
+                    </div>
+                    <div class="service-card__content">
+                        <h3 class="service-card__title">Кровельные работы</h3>
+                        <p class="service-card__description">Устройство и ремонт кровли любой сложности с гарантией
+                            герметичности.</p>
+                        <ul class="service-card__features">
+                            <li>Металлочерепица</li>
+                            <li>Мягкая кровля</li>
+                            <li>Фальцевая кровля</li>
+                            <li>Наплавляемая кровля</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="services__cta">
+                <button class="btn btn--primary btn--large">Получить бесплатную консультацию</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Наши работы</h2>
+                <p class="section-subtitle">Реализованные проекты, которыми мы гордимся</p>
+            </div>
+
+            <div class="portfolio__filters">
+                <button class="filter-btn active" data-filter="all">Все работы</button>
+                <button class="filter-btn" data-filter="houses">Дома</button>
+                <button class="filter-btn" data-filter="apartments">Квартиры</button>
+                <button class="filter-btn" data-filter="commercial">Коммерция</button>
+            </div>
+
+            <div class="portfolio__grid">
+                <div class="portfolio-item" data-category="houses">
+                    <img src="images/home1.jpg" alt="Загородный дом" loading="lazy">
+                    <div class="portfolio-item__overlay">
+                        <h3>Загородный дом 250м²</h3>
+                        <p>Строительство под ключ</p>
+                        <button class="btn btn--primary">Подробнее</button>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="apartments">
+                    <img src="images/home2.jpg" alt="Квартира студия" loading="lazy">
+                    <div class="portfolio-item__overlay">
+                        <h3>Квартира-студия 45м²</h3>
+                        <p>Ремонт под ключ</p>
+                        <button class="btn btn--primary">Подробнее</button>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="commercial">
+                    <img src="images/home1.jpg" alt="Офисное помещение" loading="lazy">
+                    <div class="portfolio-item__overlay">
+                        <h3>Офисное помещение</h3>
+                        <p>Коммерческий ремонт</p>
+                        <button class="btn btn--primary">Подробнее</button>
+                    </div>
+                </div>
+
+                <div class="portfolio-item" data-category="houses">
+                    <img src="images/home2.jpg" alt="Коттедж" loading="lazy">
+                    <div class="portfolio-item__overlay">
+                        <h3>Коттедж 180м²</h3>
+                        <p>Каркасное строительство</p>
+                        <button class="btn btn--primary">Подробнее</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Контакты</h2>
+                <p class="section-subtitle">Свяжитесь с нами для бесплатной консультации</p>
+            </div>
+
+            <div class="contact__content">
+                <div class="contact__info">
+                    <div class="contact-item">
+                        <h3>Адрес</h3>
+                        <p>г. Москва, ул. Строителей, 15</p>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Телефон</h3>
+                        <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+                    </div>
+                    <div class="contact-item">
+                        <h3>Email</h3>
+                        <a href="mailto:info@stroyprofi.ru">info@stroyprofi.ru</a>
+                    </div>
+                    <div class="contact-item">
+                        <h3>График работы</h3>
+                        <p>Пн-Пт: 9:00 - 18:00<br>Сб: 10:00 - 16:00</p>
+                    </div>
+                </div>
+
+                <form class="contact__form">
+                    <input type="text" placeholder="Ваше имя" required>
+                    <input type="tel" placeholder="Ваш телефон" required>
+                    <textarea placeholder="Сообщение" rows="5"></textarea>
+                    <button type="submit" class="btn btn--primary btn--large">Отправить заявку</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/script.js"></script>
