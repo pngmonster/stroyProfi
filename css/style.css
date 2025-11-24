@@ -608,6 +608,10 @@ section {
     border-color: var(--primary-color);
 }
 
+.contact-ico {
+    width: 20px;
+}
+
 /* ===== REVIEWS SECTION ===== */
 .reviews {
     background: var(--bg-light);
