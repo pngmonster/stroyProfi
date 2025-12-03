@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ВАШ_API_КЛЮЧ&lang=ru_RU" type="text/javascript"></script>
 </head>
 
 <body>
@@ -496,11 +497,12 @@
                     <p class="section-subtitle">Свяжитесь с нами для бесплатной консультации</p>
                 </div>
 
+                <!-- Обновленный блок contact__content -->
                 <div class="contact__content">
                     <div class="contact__info">
                         <div class="contact-item">
                             <h3>Адрес</h3>
-                            <p>г. Тула, ул. Тимирязева, 70</p>
+                            <a href="https://yandex.ru/maps/-/CLcpqB09">г. Тула, ул. Тимирязева, 70</a>
                         </div>
                         <div class="contact-item">
                             <h3>Телефон</h3>
@@ -512,13 +514,15 @@
                         </div>
                         <div class="contact-item">
                             <h3>Социальные сети</h3>
-                            <a href="https://wa.me/79606012895" target="_blank" title="Наш WhatsApp">
-                                <img src="images/WhatsApp_logo.png" class="contact-ico">
-                            </a>
-                            <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc"
-                                target="_blank" title="Мы в MAX">
-                                <img src="images/max_logo.png" class="contact-ico">
-                            </a>
+                            <div class="social-links">
+                                <a href="https://wa.me/79606012895" target="_blank" title="Наш WhatsApp">
+                                    <img src="images/WhatsApp_logo.png" class="contact-ico" alt="WhatsApp">
+                                </a>
+                                <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc"
+                                    target="_blank" title="Мы в MAX">
+                                    <img src="images/max_logo.png" class="contact-ico" alt="MAX">
+                                </a>
+                            </div>
                         </div>
                         <div class="contact-item">
                             <h3>График работы</h3>
@@ -526,15 +530,54 @@
                         </div>
                     </div>
 
-                    <form class="contact__form">
-                        <input type="text" placeholder="Ваше имя" required>
-                        <input type="tel" placeholder="Ваш телефон" required>
-                        <textarea placeholder="Сообщение" rows="5"></textarea>
-                        <button type="submit" class="btn btn--primary btn--large">Отправить заявку</button>
-                    </form>
+                    <!-- Контейнер для карты -->
+                    <div class="contact__map" id="map"></div>
                 </div>
             </div>
         </section>
     </main>
 
     <script src="js/script.js"></script>
+
+    <script type="text/javascript">
+        // Инициализация карты после загрузки страницы
+        document.addEventListener('DOMContentLoaded', function () {
+            const addressCoordinates = [54.174818, 37.609811];
+
+            // Проверяем, загрузился ли API Яндекс.Карт
+            if (typeof ymaps !== 'undefined') {
+                ymaps.ready(initMap);
+            } else {
+                console.error('Yandex Maps API не загрузился');
+            }
+
+            function initMap() {
+                // Создаем карту
+                const map = new ymaps.Map('map', {
+                    center: addressCoordinates,
+                    zoom: 16,
+                    controls: ['zoomControl', 'fullscreenControl']
+                });
+
+                // Создаем метку
+                const placemark = new ymaps.Placemark(addressCoordinates, {
+                    hintContent: 'СтройПрофи',
+                    balloonContent: 'г. Тула, ул. Тимирязева, 70'
+                }, {
+                    // Стиль метки
+                    iconLayout: 'default#image',
+                    iconImageHref: 'https://cdn-icons-png.flaticon.com/512/684/684908.png', // Или ваша иконка
+                    iconImageSize: [40, 40],
+                    iconImageOffset: [-20, -40]
+                });
+
+                // Добавляем метку на карту
+                map.geoObjects.add(placemark);
+
+                // Оптимизация для мобильных устройств
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    map.behaviors.disable('drag');
+                }
+            }
+        });
+    </script>

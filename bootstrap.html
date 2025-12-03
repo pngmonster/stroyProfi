@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СтройПрофи - Строительство под ключ</title>
+    <link rel="icon" type="image/x-icon" href="images/logo.ico">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0d6efd;
+            --secondary-color: #6c757d;
+            --dark-color: #212529;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            padding-top: 56px;
+            /* Для фиксированной навигации */
+        }
+
+        /* Улучшенная навигация */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+        }
+
+        /* Герой-секция */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('images/home1.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-top: -56px;
+            /* Компенсация для навигации */
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section .lead {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Карточки фич */
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            height: 100%;
+            border: 1px solid #dee2e6;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 110, 253, 0.1);
+            border-radius: 50%;
+        }
+
+        .feature-icon i {
+            font-size: 30px;
+            color: var(--primary-color);
+        }
+
+        /* Карточки услуг */
+        .service-card {
+            height: 100%;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Портфолио */
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+
+        /* Отзывы */
+        .review-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin: 1rem;
+        }
+
+        .review-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+
+        .review-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .review-stars {
+            color: #ffc107;
+        }
+
+        /* Контакты */
+        .contact-info {
+            background: #f8f9fa;
+            padding: 2rem;
+            border-radius: 10px;
+            height: 100%;
+        }
+
+        .contact-info h3 {
+            color: var(--dark-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Социальные иконки */
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        /* Секции */
+        section {
+            padding: 5rem 0;
+        }
+
+        .bg-light {
+            background-color: #f8f9fa !important;
+        }
+
+        /* Кнопки */
+        .btn-primary {
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+
+        .btn-outline-primary {
+            padding: 0.75rem 2rem;
+            font-weight: 600;
+        }
+
+        /* Заголовки секций */
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .section-subtitle {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0;
+                text-align: center;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            section {
+                padding: 3rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Навигация (горизонтальная для простоты) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">СтройПрофи</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">О компании</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Услуги</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Портфолио</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#reviews">Отзывы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Контакты</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center ms-3">
+                    <a href="https://wa.me/79606012895" target="_blank" class="me-2">
+                        <img src="images/WhatsApp_logo.png" alt="WhatsApp" class="social-icon">
+                    </a>
+                    <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc"
+                        target="_blank">
+                        <img src="images/max_logo.png" alt="MAX" class="social-icon">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Герой-секция (упрощенная без слайдера) -->
+        <section id="home" class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h1>Строим будущее вместе с вами</h1>
+                        <p class="lead">Профессиональное строительство и ремонт под ключ с гарантией качества</p>
+                        <div class="d-flex flex-wrap gap-3">
+                            <a href="#contact" class="btn btn-primary btn-lg">Рассчитать стоимость</a>
+                            <a href="#portfolio" class="btn btn-outline-light btn-lg">Наши работы</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Особенности -->
+        <section id="about" class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Почему выбирают нас</h2>
+                    <p class="section-subtitle">Более 15 лет создаем комфорт и надежность для наших клиентов</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Гарантия качества</h3>
+                            <p>Предоставляем гарантию до 10 лет на все виды строительных работ</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Соблюдение сроков</h3>
+                            <p>Строгое соблюдение оговоренных сроков с поэтапной отчетностью</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Прозрачность работ</h3>
+                            <p>Ежедневные фотоотчеты и онлайн-доступ к ходу строительства</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h3 class="h4 mb-3">Опытные специалисты</h3>
+                            <p>Команда профессионалов с опытом работы от 5 лет</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Услуги -->
+        <section id="services" class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Наши услуги</h2>
+                    <p class="section-subtitle">Полный спектр строительных и отделочных работ любой сложности</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card service-card">
+                            <img src="images/home1.jpg" class="card-img-top" alt="Строительство домов">
+                            <div class="card-body">
+                                <h3 class="card-title h4 mb-3">Строительство домов</h3>
+                                <p class="card-text">От проектирования до сдачи под ключ. Каркасные, кирпичные,
+                                    газобетонные дома.</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Индивидуальное
+                                        проектирование</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Все виды фундаментов
+                                    </li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Кровельные работы
+                                    </li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Внешняя отделка</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card service-card">
+                            <img src="images/home2.jpg" class="card-img-top" alt="Ремонт под ключ">
+                            <div class="card-body">
+                                <h3 class="card-title h4 mb-3">Ремонт под ключ</h3>
+                                <p class="card-text">Комплексный ремонт квартир, офисов и коммерческих помещений.</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Черновая отделка</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Чистовая отделка</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Электромонтажные
+                                        работы</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Сантехнические работы</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card service-card">
+                            <img src="images/home3.jpg" class="card-img-top" alt="Кровельные работы">
+                            <div class="card-body">
+                                <h3 class="card-title h4 mb-3">Кровельные работы</h3>
+                                <p class="card-text">Устройство и ремонт кровли любой сложности с гарантией
+                                    герметичности.</p>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Металлочерепица</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Мягкая кровля</li>
+                                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Фальцевая кровля</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Наплавляемая кровля</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <button class="btn btn-primary btn-lg"
+                        onclick="alert('Функция консультации - заглушка. В реальном проекте здесь будет форма.')">
+                        Получить бесплатную консультацию
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Портфолио -->
+        <section id="portfolio" class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Наши работы</h2>
+                    <p class="section-subtitle">Реализованные проекты, которыми мы гордимся</p>
+                </div>
+
+                <!-- Табы для фильтрации (статичные) -->
+                <ul class="nav nav-pills justify-content-center mb-5" id="portfolioTabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#all">Все работы</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#panels">Дома из панелей</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#timber">Дома из бруса</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#concrete">Дома из бетона</a>
+                    </li>
+                </ul>
+
+                <!-- Портфолио грид -->
+                <div class="row">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="portfolio-item">
+                            <img src="images/home1.jpg" alt="Загородный дом">
+                            <div class="portfolio-overlay">
+                                <h4>Дом с панорамными окнами 250м²</h4>
+                                <p>Строительство под ключ</p>
+                                <button class="btn btn-primary btn-sm"
+                                    onclick="alert('Подробнее о проекте - заглушка')">Подробнее</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="portfolio-item">
+                            <img src="images/home2.jpg" alt="Коттедж">
+                            <div class="portfolio-overlay">
+                                <h4>Коттедж из бруса 320м²</h4>
+                                <p>Ремонт под ключ</p>
+                                <button class="btn btn-primary btn-sm"
+                                    onclick="alert('Подробнее о проекте - заглушка')">Подробнее</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="portfolio-item">
+                            <img src="images/home4.jpg" alt="Офисное помещение">
+                            <div class="portfolio-overlay">
+                                <h4>Дом из бетона 300м²</h4>
+                                <p>Коммерческий ремонт</p>
+                                <button class="btn btn-primary btn-sm"
+                                    onclick="alert('Подробнее о проекте - заглушка')">Подробнее</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="portfolio-item">
+                            <img src="images/home5.jpg" alt="Дом с садом">
+                            <div class="portfolio-overlay">
+                                <h4>Дом из бетона с садом 190м²</h4>
+                                <p>Каркасное строительство</p>
+                                <button class="btn btn-primary btn-sm"
+                                    onclick="alert('Подробнее о проекте - заглушка')">Подробнее</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Отзывы -->
+        <section id="reviews" class="py-5 bg-light">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Отзывы клиентов</h2>
+                    <p class="section-subtitle">Что говорят о нашей работе</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="review-card">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="review-avatar">
+                                    <img src="images/avatarM1.jpg" alt="Алексей Петров">
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">Алексей Петров</h4>
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-0">
+                                Очень доволен работой компании! Построили дом быстро и качественно.
+                                Все пожелания были учтены, материалы использовали хорошие. Рекомендую!
+                            </p>
+                            <div class="text-muted mt-2">15 января 2025</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="review-card">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="review-avatar">
+                                    <img src="images/avatarW1.jpg" alt="Мария Иванова">
+                                </div>
+                                <div>
+                                    <h4 class="mb-1">Мария Иванова</h4>
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mb-0">
+                                Строили дом под ключ. Команда профессиональная, всегда на связи,
+                                отвечали на все вопросы. Небольшие задержки по срокам, но результат превзошел ожидания!
+                            </p>
+                            <div class="text-muted mt-2">3 декабря 2023</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Заглушка для навигации отзывов -->
+                <div class="text-center mt-4">
+                    <p class="text-muted">
+                        <i>Навигация по отзывам - заглушка. В реальном проекте здесь будет карусель.</i>
+                    </p>
+                    <div class="d-flex justify-content-center align-items-center gap-3">
+                        <button class="btn btn-outline-secondary" disabled>‹</button>
+                        <span class="mx-2">1 из 2</span>
+                        <button class="btn btn-outline-secondary" disabled>›</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Контакты -->
+        <section id="contact" class="py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Контакты</h2>
+                    <p class="section-subtitle">Свяжитесь с нами для бесплатной консультации</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6 mb-4 mb-lg-0">
+                        <div class="contact-info h-100">
+                            <div class="mb-4">
+                                <h3><i class="fas fa-map-marker-alt text-primary me-2"></i>Адрес</h3>
+                                <p class="ms-4">г. Тула, ул. Тимирязева, 70</p>
+                            </div>
+
+                            <div class="mb-4">
+                                <h3><i class="fas fa-phone text-primary me-2"></i>Телефон</h3>
+                                <p class="ms-4"><a href="tel:+79606012895" class="text-decoration-none">+7 (960)
+                                        601-28-95</a></p>
+                            </div>
+
+                            <div class="mb-4">
+                                <h3><i class="fas fa-envelope text-primary me-2"></i>Email</h3>
+                                <p class="ms-4"><a href="mailto:id.ilichev@mail.ru"
+                                        class="text-decoration-none">id.ilichev@mail.ru</a></p>
+                            </div>
+
+                            <div class="mb-4">
+                                <h3><i class="fas fa-share-alt text-primary me-2"></i>Социальные сети</h3>
+                                <div class="ms-4 d-flex gap-3">
+                                    <a href="https://wa.me/79606012895" target="_blank">
+                                        <img src="images/WhatsApp_logo.png" alt="WhatsApp" class="social-icon">
+                                    </a>
+                                    <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc"
+                                        target="_blank">
+                                        <img src="images/max_logo.png" alt="MAX" class="social-icon">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3><i class="fas fa-clock text-primary me-2"></i>График работы</h3>
+                                <p class="ms-4">Пн-Пт: 9:00 - 18:00<br>Сб: 10:00 - 16:00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="card h-100">
+                            <div class="card-body p-4">
+                                <h3 class="card-title mb-4">Отправить сообщение</h3>
+                                <form
+                                    onsubmit="alert('Форма отправлена - заглушка. В реальном проекте здесь будет отправка на сервер.'); return false;">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Ваше имя" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="tel" class="form-control" placeholder="Ваш телефон" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea class="form-control" rows="4" placeholder="Сообщение"
+                                            required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Отправить заявку</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="bg-dark text-white py-4">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">© 2024 СтройПрофи. Все права защищены.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="https://wa.me/79606012895" target="_blank" class="text-white me-3">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc"
+                        target="_blank" class="text-white">
+                        <i class="fas fa-share-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Простой скрипт для плавной прокрутки -->
+    <script>
+        // Плавная прокрутка для ссылок с якорями
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Заглушки для неработающих элементов
+        console.log('Все интерактивные элементы заменены на заглушки для демонстрации');
+    </script>
+</body>
+
+</html>
