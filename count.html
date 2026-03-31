@@ -1,0 +1,822 @@
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">СтройПрофи</h1>
+            <p class="subtitle">Калькулятор стоимости строительства</p>
+        </div>
+
+        <div class="calculator">
+            <div class="input-group">
+                <label for="area">Площадь дома (м²)</label>
+                <input type="number" id="area" min="20" max="1000" value="100" placeholder="Введите площадь">
+            </div>
+
+            <div class="buttons">
+                <button class="type-btn active" data-type="beton" data-image="images/home4.jpg"
+                    data-description="Современные бетонные дома отличаются прочностью, долговечностью и отличной теплоизоляцией. Идеальный выбор для постоянного проживания.">
+                    <span>Дом из бетона</span>
+                </button>
+                <button class="type-btn" data-type="brus" data-image="images/home2.jpg"
+                    data-description="Экологичные дома из бруса создают уникальный микроклимат, обладают естественной вентиляцией и уютной атмосферой.">
+                    <span>Дом из бруса</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="house-info">
+            <div class="house-image">
+                <img id="house-img" src="images/home4.jpg" alt="Дом из бетона">
+            </div>
+            <div class="house-description">
+                <h3>Информация</h3>
+                <p id="house-desc">Современные бетонные дома отличаются прочностью, долговечностью и отличной
+                    теплоизоляцией. Идеальный выбор для постоянного проживания.</p>
+                <div class="house-specs">
+                    <div class="spec">
+                        <span class="spec-label">Срок строительства:</span>
+                        <span class="spec-value" id="term">6-8 месяцев</span>
+                    </div>
+                    <div class="spec">
+                        <span class="spec-label">Гарантия:</span>
+                        <span class="spec-value" id="warranty">15 лет</span>
+                    </div>
+                    <div class="spec">
+                        <span class="spec-label">Теплоизоляция:</span>
+                        <span class="spec-value" id="insulation">Высокая</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result">
+            <div class="result-title">Примерная стоимость</div>
+            <div class="price" id="price">0 ₽</div>
+            <div class="details" id="details">
+                Выберите тип дома и укажите площадь
+            </div>
+        </div>
+
+        <a href="index.html" class="back-btn">Вернуться на главную</a>
+    </div>
+
+    <style>
+        :root {
+            --primary-color: #ff6b35;
+            --secondary-color: #1a1a1a;
+            --accent-color: #ff6b35;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .calculator {
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .type-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .type-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .type-btn:hover:not(.active) {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .price-per-m2 {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .house-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 25px;
+        }
+
+        .house-image {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            height: 250px;
+        }
+
+        .house-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .house-image img:hover {
+            transform: scale(1.02);
+        }
+
+        .house-description h3 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .house-description p {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .house-specs {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+
+        .spec {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .spec:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .result {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .details {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .back-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            height: 45px;
+            align-items: center;
+        }
+
+        .back-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .house-info {
+                grid-template-columns: 1fr;
+            }
+
+            .house-image {
+                height: 200px;
+            }
+
+            .price {
+                font-size: 2rem;
+            }
+        }
+    </style>
+
+    <script>
+        const prices = {
+            beton: 35000,
+            brus: 25000
+        };
+
+        const specs = {
+            beton: {
+                term: "6-8 месяцев",
+                warranty: "15 лет",
+                insulation: "Высокая"
+            },
+            brus: {
+                term: "3-5 месяцев",
+                warranty: "10 лет",
+                insulation: "Средняя"
+            }
+        };
+
+        const areaInput = document.getElementById('area');
+        const typeButtons = document.querySelectorAll('.type-btn');
+        const priceElement = document.getElementById('price');
+        const detailsElement = document.getElementById('details');
+        const houseImage = document.getElementById('house-img');
+        const houseDesc = document.getElementById('house-desc');
+        const termElement = document.getElementById('term');
+        const warrantyElement = document.getElementById('warranty');
+        const insulationElement = document.getElementById('insulation');
+
+        let currentType = 'beton';
+        let currentArea = 100;
+
+        function formatPrice(price) {
+            return price.toLocaleString('ru-RU') + ' ₽';
+        }
+
+        function updateHouseInfo() {
+            const activeButton = document.querySelector('.type-btn.active');
+
+            // Обновляем изображение
+            houseImage.src = activeButton.dataset.image;
+            houseImage.alt = activeButton.textContent;
+
+            // Обновляем описание
+            houseDesc.textContent = activeButton.dataset.description;
+
+            // Обновляем характеристики
+            const currentSpecs = specs[currentType];
+            termElement.textContent = currentSpecs.term;
+            warrantyElement.textContent = currentSpecs.warranty;
+            insulationElement.textContent = currentSpecs.insulation;
+        }
+
+        function calculate() {
+            const pricePerM2 = prices[currentType];
+            const total = currentArea * pricePerM2;
+
+            let discount = 0;
+            if (currentArea > 300) discount = 15;
+            else if (currentArea > 150) discount = 10;
+
+            const finalPrice = discount ? total * (1 - discount / 100) : total;
+
+            priceElement.textContent = formatPrice(finalPrice);
+
+            const typeName = currentType === 'beton' ? 'бетонного' : 'деревянного';
+            const discountText = discount ? ` (скидка ${discount}%)` : '';
+
+            detailsElement.textContent = `Строительство ${typeName} дома площадью ${currentArea}м²${discountText}`;
+        }
+
+        // Обработчики событий
+        areaInput.addEventListener('input', function () {
+            let value = parseInt(this.value);
+            if (value < 20) value = 20;
+            if (value > 1000) value = 1000;
+
+            currentArea = value;
+            calculate();
+        });
+
+        typeButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                typeButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                currentType = this.dataset.type;
+
+                updateHouseInfo();
+                calculate();
+            });
+        });
+
+        // Добавь эту функцию после calculate()
+        function saveToAccount() {
+            if (window.getCurrentUser && window.getCurrentUser()) {
+                const finalPrice = calculateFinalPrice(); // Функция должна возвращать итоговую цену
+                window.saveCalculation(currentType, currentArea, finalPrice);
+
+                // Показываем уведомление
+                alert('Расчет сохранен в вашем личном кабинете!');
+
+                // Предлагаем перейти в личный кабинет
+                if (confirm('Перейти в личный кабинет?')) {
+                    window.location.href = 'avtoriz.html';
+                }
+            } else {
+                if (confirm('Для сохранения расчетов нужно войти в аккаунт. Перейти к авторизации?')) {
+                    window.location.href = 'avtoriz.html';
+                }
+            }
+        }
+
+        // Функция для получения итоговой цены
+        function calculateFinalPrice() {
+            const pricePerM2 = prices[currentType];
+            const total = currentArea * pricePerM2;
+            let discount = 0;
+            if (currentArea > 300) discount = 15;
+            else if (currentArea > 150) discount = 10;
+            return discount ? total * (1 - discount / 100) : total;
+        }
+
+        // В calculator.html добавь этот код в конец скрипта:
+
+        // Функция для получения итоговой цены
+        function getFinalPrice() {
+            const pricePerM2 = prices[currentType];
+            const total = currentArea * pricePerM2;
+            let discount = 0;
+            if (currentArea > 300) discount = 15;
+            else if (currentArea > 150) discount = 10;
+            return Math.round(discount ? total * (1 - discount / 100) : total);
+        }
+
+        // Функция для проверки авторизации
+        function checkAuth() {
+            // Проверяем через глобальный объект из avtoriz.html
+            if (window.__STROYPROFI_AUTH && window.__STROYPROFI_AUTH.isAuthenticated()) {
+                return window.__STROYPROFI_AUTH.getCurrentUser();
+            }
+
+            // Альтернативная проверка через localStorage
+            const userData = localStorage.getItem('currentUser');
+            return userData ? JSON.parse(userData) : null;
+        }
+
+        // Модифицируем функцию saveCalculation в калькуляторе
+        function saveCalculation() {
+            const user = checkAuth();
+
+            if (user) {
+                const finalPrice = getFinalPrice();
+                const breakdown = calculateBreakdown(); // Новая функция
+
+                if (window.__STROYPROFI_AUTH) {
+                    window.__STROYPROFI_AUTH.saveCalculation(
+                        currentType,
+                        currentArea,
+                        finalPrice,
+                        breakdown // Добавляем детализацию
+                    );
+                    showSuccessMessage('Расчет сохранен в вашем личном кабинете!');
+
+                    setTimeout(() => showDashboardLink(), 1000);
+                } else {
+                    saveToLocalStorage(user, finalPrice, breakdown);
+                    showSuccessMessage('Расчет сохранен локально!');
+                }
+            } else {
+                showAuthPrompt();
+            }
+        }
+
+        // Функция для расчета детализации стоимости
+        function calculateBreakdown() {
+            const pricePerM2 = prices[currentType];
+            const baseCost = currentArea * pricePerM2;
+
+            // Расчет скидки
+            let discount = 0;
+            if (currentArea > 300) discount = 15;
+            else if (currentArea > 150) discount = 10;
+
+            const discountedCost = discount ? baseCost * (1 - discount / 100) : baseCost;
+
+            // Детализация для разных типов домов
+            let breakdown = {
+                total: Math.round(discountedCost),
+                discount: discount,
+                items: []
+            };
+
+            if (currentType === 'beton') {
+                // Детализация для бетонного дома
+                breakdown.items = [
+                    {
+                        name: 'Фундамент (монолитный)',
+                        cost: Math.round(baseCost * 0.25),
+                        percent: 25,
+                        description: 'Устройство монолитного фундамента с армированием'
+                    },
+                    {
+                        name: 'Стены и перекрытия',
+                        cost: Math.round(baseCost * 0.35),
+                        percent: 35,
+                        description: 'Возведение стен из бетонных блоков, межэтажные перекрытия'
+                    },
+                    {
+                        name: 'Кровля',
+                        cost: Math.round(baseCost * 0.15),
+                        percent: 15,
+                        description: 'Металлочерепица, стропильная система, утепление'
+                    },
+                    {
+                        name: 'Отделочные работы',
+                        cost: Math.round(baseCost * 0.20),
+                        percent: 20,
+                        description: 'Наружная и внутренняя отделка, штукатурка'
+                    },
+                    {
+                        name: 'Инженерные системы',
+                        cost: Math.round(baseCost * 0.05),
+                        percent: 5,
+                        description: 'Электрика, сантехника, отопление'
+                    }
+                ];
+            } else {
+                // Детализация для дома из бруса
+                breakdown.items = [
+                    {
+                        name: 'Фундамент (ленточный)',
+                        cost: Math.round(baseCost * 0.20),
+                        percent: 20,
+                        description: 'Ленточный фундамент с гидроизоляцией'
+                    },
+                    {
+                        name: 'Стены из бруса',
+                        cost: Math.round(baseCost * 0.40),
+                        percent: 40,
+                        description: 'Профилированный брус 150×150мм, утепление'
+                    },
+                    {
+                        name: 'Кровля',
+                        cost: Math.round(baseCost * 0.15),
+                        percent: 15,
+                        description: 'Мягкая кровля, стропильная система'
+                    },
+                    {
+                        name: 'Отделочные работы',
+                        cost: Math.round(baseCost * 0.15),
+                        percent: 15,
+                        description: 'Шлифовка бруса, покраска, внутренняя отделка'
+                    },
+                    {
+                        name: 'Инженерные системы',
+                        cost: Math.round(baseCost * 0.10),
+                        percent: 10,
+                        description: 'Электрика, сантехника, отопление, вентиляция'
+                    }
+                ];
+            }
+
+            return breakdown;
+        }
+
+        function saveToLocalStorage(user, price, breakdown) {
+            const historyKey = `stroyprofi_history_${user.id}`;
+            const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
+
+            const calculation = {
+                id: Date.now(),
+                type: currentType,
+                typeName: currentType === 'beton' ? 'Дом из бетона' : 'Дом из бруса',
+                area: currentArea,
+                price: price,
+                breakdown: breakdown, // Сохраняем детализацию
+                date: new Date().toISOString(),
+                timestamp: Date.now()
+            };
+
+            history.unshift(calculation);
+            localStorage.setItem(historyKey, JSON.stringify(history));
+        }
+
+        // Показываем сообщение об успехе
+        function showSuccessMessage(text) {
+            // Создаем элемент сообщения
+            const message = document.createElement('div');
+            message.className = 'success-message';
+            message.innerHTML = `
+        <div style="
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: var(--border-radius);
+            border: 1px solid #c3e6cb;
+            margin-top: 15px;
+            text-align: center;
+            font-weight: 500;
+        ">
+            <i class="fas fa-check-circle"></i> ${text}
+        </div>
+    `;
+
+            // Вставляем после результата
+            const resultDiv = document.querySelector('.result');
+            const existingMessage = resultDiv.querySelector('.success-message');
+            if (existingMessage) existingMessage.remove();
+
+            resultDiv.appendChild(message);
+
+            // Автоматически скрываем через 5 секунд
+            setTimeout(() => {
+                if (message.parentNode) {
+                    message.style.transition = 'opacity 0.5s ease';
+                    message.style.opacity = '0';
+                    setTimeout(() => {
+                        if (message.parentNode) message.remove();
+                    }, 500);
+                }
+            }, 5000);
+        }
+
+        // Показываем ссылку на личный кабинет
+        function showDashboardLink() {
+            const linkDiv = document.createElement('div');
+            linkDiv.className = 'dashboard-link';
+            linkDiv.innerHTML = `
+        <a href="avtoriz.html" style="
+            display: inline-block;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        ">
+            <i class="fas fa-user-circle"></i> Перейти в личный кабинет
+        </a>
+    `;
+
+            const existingLink = document.querySelector('.dashboard-link');
+            if (existingLink) existingLink.remove();
+
+            document.querySelector('.result').appendChild(linkDiv);
+        }
+
+        // Показываем предложение авторизоваться
+        function showAuthPrompt() {
+            const promptDiv = document.createElement('div');
+            promptDiv.className = 'auth-prompt';
+            promptDiv.innerHTML = `
+        <div style="
+            background: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: var(--border-radius);
+            border: 1px solid #ffeaa7;
+            margin-top: 15px;
+            text-align: center;
+        ">
+            <p style="margin-bottom: 10px;">
+                <i class="fas fa-info-circle"></i> 
+                Для сохранения расчетов необходимо войти в аккаунт
+            </p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <a href="avtoriz.html" style="
+                    background: var(--primary-color);
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: var(--border-radius);
+                    text-decoration: none;
+                    font-weight: 500;
+                ">
+                    Войти
+                </a>
+                <button onclick="this.parentNode.parentNode.remove()" style="
+                    background: transparent;
+                    color: var(--text-light);
+                    border: 1px solid #ddd;
+                    padding: 8px 16px;
+                    border-radius: var(--border-radius);
+                    cursor: pointer;
+                ">
+                    Позже
+                </button>
+            </div>
+        </div>
+    `;
+
+            const existingPrompt = document.querySelector('.auth-prompt');
+            if (existingPrompt) existingPrompt.remove();
+
+            document.querySelector('.result').appendChild(promptDiv);
+        }
+
+        // Добавляем кнопку сохранения в интерфейс
+        function addSaveButton() {
+            // Проверяем, есть ли уже кнопка
+            if (document.getElementById('saveCalculationBtn')) return;
+
+            const saveBtn = document.createElement('button');
+            saveBtn.id = 'saveCalculationBtn';
+            saveBtn.innerHTML = `
+        <i class="fas fa-save"></i> Сохранить расчет
+    `;
+            saveBtn.style.cssText = `
+        width: 100%;
+        padding: 12px;
+        background: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-bottom: 15px;
+    `;
+
+            saveBtn.onmouseenter = () => {
+                saveBtn.style.transform = 'translateY(-2px)';
+                saveBtn.style.boxShadow = '0 5px 15px rgba(45, 91, 255, 0.3)';
+            };
+
+            saveBtn.onmouseleave = () => {
+                saveBtn.style.transform = 'translateY(0)';
+                saveBtn.style.boxShadow = 'none';
+            };
+
+            saveBtn.onclick = saveCalculation;
+
+            // Вставляем после блока с результатом
+            const resultDiv = document.querySelector('.result');
+            resultDiv.parentNode.insertBefore(saveBtn, resultDiv.nextSibling);
+        }
+
+        // Проверяем авторизацию при загрузке и показываем кнопку
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ждем немного для инициализации
+            setTimeout(() => {
+                const user = checkAuth();
+                if (user) {
+                    console.log('Пользователь авторизован:', user.email);
+
+                    // Добавляем приветствие
+                    const welcomeDiv = document.createElement('div');
+                    welcomeDiv.innerHTML = `
+                <div style="
+                    background: rgba(255, 107, 53, 0.1);
+                    padding: 10px 15px;
+                    border-radius: var(--border-radius);
+                    margin-bottom: 15px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                ">
+                    <div style="
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+                        color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 600;
+                    ">
+                        ${user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                    </div>
+                    <div>
+                        <div style="font-weight: 500;">${user.name || 'Пользователь'}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-light);">
+                            <a href="avtoriz.html" style="color: var(--primary-color); text-decoration: none;">
+                                Личный кабинет
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+                    const calculatorDiv = document.querySelector('.calculator');
+                    calculatorDiv.parentNode.insertBefore(welcomeDiv, calculatorDiv);
+                }
+
+                // Всегда показываем кнопку сохранения
+                addSaveButton();
+            }, 100);
+        });
+
+        // Инициализация
+        updateHouseInfo();
+        calculate();
+    </script>
+</body>

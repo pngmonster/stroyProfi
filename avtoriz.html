@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - СтройПрофи</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="css/autorizStyle.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="logo-header">
+            <h1 class="logo">СтройПрофи</h1>
+            <p class="subtitle">Личный кабинет</p>
+        </div>
+
+        <!-- Форма авторизации -->
+        <div class="auth-form active" id="authForm">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Вход</button>
+                <button class="auth-tab" data-tab="register">Регистрация</button>
+            </div>
+
+            <div class="message" id="authMessage"></div>
+
+            <!-- Форма входа -->
+            <form id="loginForm" class="tab-content active">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required placeholder="Ваш email">
+                </div>
+
+                <div class="form-group">
+                    <label for="loginPassword">Пароль</label>
+                    <input type="password" id="loginPassword" required placeholder="Ваш пароль">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                    <button type="button" class="btn btn-secondary" onclick="showDemoAccount()">
+                        Демо-доступ
+                    </button>
+                </div>
+
+                <div class="form-footer" style="margin-top: 10px; padding-top: 10px; border-top: none;">
+                    <a href="forgot-password.html"
+                        style="color: var(--primary-color); text-decoration: none; font-weight: 500;">
+                        <i class="fas fa-question-circle"></i> Забыли пароль?
+                    </a>
+                </div>
+            </form>
+
+            <!-- Форма регистрации -->
+            <form id="registerForm" class="tab-content" style="display: none;">
+                <div class="form-group">
+                    <label for="registerName">Имя</label>
+                    <input type="text" id="registerName" required placeholder="Ваше имя">
+                </div>
+
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required placeholder="Ваш email">
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Пароль</label>
+                    <input type="password" id="registerPassword" required placeholder="Придумайте пароль" minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label for="registerConfirm">Подтверждение пароля</label>
+                    <input type="password" id="registerConfirm" required placeholder="Повторите пароль">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <button type="button" class="btn btn-secondary" onclick="switchToLogin()">
+                        Уже есть аккаунт
+                    </button>
+                </div>
+            </form>
+
+            <div class="form-footer">
+                <p>Используя сервис, вы соглашаетесь с
+                    <a
+                        href="https://www.consultant.ru/document/cons_doc_LAW_61801/96fbc469f91f57235cc842a85e0516a99f23dc85/">правилами
+                        обработки данных</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Личный кабинет -->
+        <div class="dashboard" id="dashboard">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="user-details">
+                    <h3 id="userName">Пользователь</h3>
+                    <p id="userEmail">email@example.com</p>
+                </div>
+            </div>
+
+            <div class="message" id="dashboardMessage"></div>
+
+            <div class="dashboard-section">
+                <div class="section-title">
+                    <span>История расчетов</span>
+                    <div class="history-actions">
+                        <span class="history-count" id="historyCount">0 расчетов</span>
+                        <button class="export-btn" onclick="exportToExcel()" title="Сохранить в Excel">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="history-list" id="historyList">
+                    <div class="empty-state" id="emptyHistory">
+                        <i class="fas fa-calculator"></i>
+                        <p>У вас пока нет сохраненных расчетов</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">
+                            Перейдите в <a href="count.html">калькулятор</a>
+                            чтобы сохранить первый расчет
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-section">
+                <div class="section-title">Статистика</div>
+                <div class="history-item" style="border-left-color: var(--accent-color);">
+                    <div class="history-type">Общая сумма расчетов</div>
+                    <div class="history-details">
+                        <span>Все проекты</span>
+                        <span class="history-price" id="totalAmount">0 ₽</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
+            </button>
+
+            <button class="logout-btn" onclick="window.location.href='count.html'">
+                <i class="fas fa-calculator"></i> Перейти к калькулятору
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center;">
+        <a href="index.html" style="color: var(--primary-color); text-decoration: none; font-weight: 500;">
+            <i class="fas fa-arrow-left"></i> Вернуться на главную
+        </a>
+    </div>
+
+    <script>
+        // Глобальные переменные
+        let currentUser = null;
+        const STORAGE_KEY = 'stroyprofi_users';
+        const HISTORY_KEY = 'stroyprofi_history_';
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function () {
+            checkAuth();
+            initTabs();
+            initForms();
+        });
+
+        // Проверка авторизации
+        function checkAuth() {
+            const user = localStorage.getItem('currentUser');
+            if (user) {
+                currentUser = JSON.parse(user);
+                showDashboard();
+            } else {
+                showAuth();
+            }
+        }
+
+        // Переключение вкладок
+        function initTabs() {
+            const tabs = document.querySelectorAll('.auth-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    const tabId = this.dataset.tab;
+
+                    // Обновляем активные вкладки
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Показываем соответствующую форму
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.style.display = 'none';
+                    });
+
+                    if (tabId === 'login') {
+                        document.getElementById('loginForm').style.display = 'block';
+                    } else {
+                        document.getElementById('registerForm').style.display = 'block';
+                    }
+
+                    hideMessage('authMessage');
+                });
+            });
+        }
+
+        // Инициализация форм
+        function initForms() {
+            // Форма входа
+            document.getElementById('loginForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                login();
+            });
+
+            // Форма регистрации
+            document.getElementById('registerForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                register();
+            });
+        }
+
+        // Вход
+        function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            const users = getUsers();
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showDashboard();
+                showMessage('authMessage', 'Вход выполнен успешно!', 'success');
+            } else {
+                showMessage('authMessage', 'Неверный email или пароль', 'error');
+            }
+        }
+
+        // Регистрация
+        function register() {
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('registerConfirm').value;
+
+            if (password !== confirm) {
+                showMessage('authMessage', 'Пароли не совпадают', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('authMessage', 'Пароль должен быть не менее 6 символов', 'error');
+                return;
+            }
+
+            const users = getUsers();
+
+            if (users.find(u => u.email === email)) {
+                showMessage('authMessage', 'Пользователь с таким email уже существует', 'error');
+                return;
+            }
+
+            const newUser = {
+                id: Date.now(),
+                name: name || 'Пользователь',
+                email,
+                password,
+                avatar: name.charAt(0).toUpperCase(),
+                createdAt: new Date().toISOString()
+            };
+
+            users.push(newUser);
+            saveUsers(users);
+
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+            showDashboard();
+            showMessage('authMessage', 'Регистрация успешна!', 'success');
+        }
+
+        // Демо-аккаунт
+        function showDemoAccount() {
+            document.getElementById('loginEmail').value = 'demo1@stroyprofi.ru';
+            document.getElementById('loginPassword').value = 'demo123';
+            showMessage('authMessage', 'Демо-данные заполнены. Нажмите "Войти"', 'success');
+        }
+
+        // Переключение на вход
+        function switchToLogin() {
+            document.querySelector('.auth-tab[data-tab="login"]').click();
+        }
+
+        // Получение истории расчетов
+        function getHistory() {
+            if (!currentUser) return [];
+            const history = localStorage.getItem(HISTORY_KEY + currentUser.id);
+            return history ? JSON.parse(history) : [];
+        }
+
+        // Сохранение расчета в историю
+        function saveCalculation(type, area, price) {
+            if (!currentUser) return;
+
+            const history = getHistory();
+            const calculation = {
+                id: Date.now(),
+                type,
+                area,
+                price,
+                date: new Date().toISOString(),
+                typeName: type === 'beton' ? 'Дом из бетона' : 'Дом из бруса'
+            };
+
+            history.unshift(calculation); // Добавляем в начало
+            localStorage.setItem(HISTORY_KEY + currentUser.id, JSON.stringify(history));
+
+            // Обновляем интерфейс если на странице кабинета
+            if (document.getElementById('dashboard')) {
+                updateDashboard();
+                showMessage('dashboardMessage', 'Расчет сохранен в историю!', 'success');
+                setTimeout(() => hideMessage('dashboardMessage'), 3000);
+            }
+        }
+
+        // Обновление дашборда
+        function updateDashboard() {
+            if (!currentUser) return;
+
+            // Обновляем данные пользователя
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('userEmail').textContent = currentUser.email;
+            document.getElementById('userAvatar').textContent = currentUser.avatar;
+
+            // Обновляем историю
+            const history = getHistory();
+            const historyList = document.getElementById('historyList');
+            const emptyHistory = document.getElementById('emptyHistory');
+            const historyCount = document.getElementById('historyCount');
+            const totalAmount = document.getElementById('totalAmount');
+
+            historyCount.textContent = `${history.length} расчетов`;
+
+            // Считаем общую сумму
+            const total = history.reduce((sum, item) => sum + item.price, 0);
+            totalAmount.textContent = `${total.toLocaleString('ru-RU')} ₽`;
+
+            if (history.length === 0) {
+                emptyHistory.style.display = 'block';
+                return;
+            }
+
+            emptyHistory.style.display = 'none';
+            historyList.innerHTML = '';
+
+            history.forEach(item => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+
+                // Основная информация
+                let html = `
+            <div class="history-header">
+                <div class="history-type">${item.typeName}</div>
+                <div class="history-price">${item.price.toLocaleString('ru-RU')} ₽</div>
+            </div>
+            <div class="history-meta">
+                <span class="history-area">${item.area}м²</span>
+                <span class="history-date">${new Date(item.date).toLocaleDateString('ru-RU')}</span>
+                ${item.breakdown && item.breakdown.discount > 0 ?
+                        `<span class="history-discount">Скидка ${item.breakdown.discount}%</span>` : ''}
+            </div>
+        `;
+
+                // Добавляем детализацию если есть
+                if (item.breakdown && item.breakdown.items) {
+                    html += `
+                <div class="breakdown">
+                    <div class="breakdown-title">Состав стоимости:</div>
+                    <div class="breakdown-items">
+            `;
+
+                    item.breakdown.items.forEach(bItem => {
+                        html += `
+                    <div class="breakdown-item">
+                        <div class="breakdown-item-header">
+                            <span class="breakdown-item-name">${bItem.name}</span>
+                            <span class="breakdown-item-cost">${bItem.cost.toLocaleString('ru-RU')} ₽</span>
+                        </div>
+                        <div class="breakdown-item-details">
+                            <div class="breakdown-percent">${bItem.percent}% от стоимости</div>
+                            <div class="breakdown-description">${bItem.description}</div>
+                        </div>
+                    </div>
+                `;
+                    });
+
+                    html += `
+                    </div>
+                </div>
+            `;
+                }
+
+                historyItem.innerHTML = html;
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // Выход
+        function logout() {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            showAuth();
+            showMessage('authMessage', 'Вы вышли из аккаунта', 'success');
+        }
+
+        // Показать/скрыть сообщения
+        function showMessage(elementId, text, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = text;
+            element.className = `message ${type}`;
+            element.style.display = 'block';
+        }
+
+        function hideMessage(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        // Вспомогательные функции для работы с localStorage
+        function getUsers() {
+            const users = localStorage.getItem(STORAGE_KEY);
+            return users ? JSON.parse(users) : [];
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+        }
+
+        // Переключение между формами
+        function showAuth() {
+            document.getElementById('authForm').classList.add('active');
+            document.getElementById('dashboard').classList.remove('active');
+            hideMessage('authMessage');
+        }
+
+        function showDashboard() {
+            document.getElementById('authForm').classList.remove('active');
+            document.getElementById('dashboard').classList.add('active');
+            updateDashboard();
+        }
+
+        // Функция для экспорта истории в Excel с детализацией
+        function exportToExcel() {
+            const history = getHistory();
+
+            if (history.length === 0) {
+                showMessage('dashboardMessage', 'Нет данных для экспорта', 'error');
+                return;
+            }
+
+            // Подготавливаем данные для Excel
+            const excelData = prepareExcelData(history);
+
+            try {
+                // Создаем книгу Excel
+                const wb = XLSX.utils.book_new();
+
+                // Лист 1: Сводная таблица
+                const ws1 = XLSX.utils.json_to_sheet(excelData.summary);
+                ws1['!cols'] = [
+                    { wch: 5 },  // №
+                    { wch: 15 }, // Тип дома
+                    { wch: 10 }, // Площадь
+                    { wch: 15 }, // Общая стоимость
+                    { wch: 10 }, // Скидка
+                    { wch: 18 }, // Стоимость со скидкой
+                    { wch: 12 }, // Дата расчета
+                    { wch: 12 }, // Время расчета
+                    { wch: 10 }  // ID расчета
+                ];
+                XLSX.utils.book_append_sheet(wb, ws1, 'Сводка');
+
+                // Лист 2: Детализация по расчетам
+                const ws2 = XLSX.utils.json_to_sheet(excelData.details);
+                ws2['!cols'] = [
+                    { wch: 8 },  // Расчет №
+                    { wch: 15 }, // Тип дома
+                    { wch: 25 }, // Компонент
+                    { wch: 15 }, // Стоимость
+                    { wch: 10 }, // Доля
+                    { wch: 40 }  // Описание
+                ];
+                XLSX.utils.book_append_sheet(wb, ws2, 'Детализация');
+
+                // Лист 3: Полная детализация
+                const ws3 = XLSX.utils.json_to_sheet(excelData.fullDetails);
+                ws3['!cols'] = [
+                    { wch: 8 },   // Расчет №
+                    { wch: 12 },  // ID расчета
+                    { wch: 15 },  // Тип дома
+                    { wch: 10 },  // Площадь
+                    { wch: 25 },  // Компонент
+                    { wch: 20 },  // Стоимость компонента
+                    { wch: 15 },  // Доля от стоимости
+                    { wch: 40 },  // Описание работ
+                    { wch: 18 },  // Базовая стоимость
+                    { wch: 10 },  // Скидка
+                    { wch: 12 },  // Дата расчета
+                    { wch: 12 }   // Время расчета
+                ];
+                XLSX.utils.book_append_sheet(wb, ws3, 'Полная детализация');
+
+                // Лист 4: Статистика
+                const statsData = calculateStatistics(history);
+                const ws4 = XLSX.utils.json_to_sheet(statsData);
+                ws4['!cols'] = [
+                    { wch: 20 }, // Показатель
+                    { wch: 20 }  // Значение
+                ];
+                XLSX.utils.book_append_sheet(wb, ws4, 'Статистика');
+
+                // Генерируем имя файла
+                const fileName = `СтройПрофи_Расчеты_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.xlsx`;
+
+                // Сохраняем файл
+                XLSX.writeFile(wb, fileName);
+
+                // Показываем уведомление
+                showExportNotification(`Файл сохранен! 4 листа, ${history.length} расчетов`);
+
+            } catch (error) {
+                console.error('Ошибка при экспорте в Excel:', error);
+                showMessage('dashboardMessage', 'Ошибка при сохранении файла', 'error');
+            }
+        }
+
+        // Функция для расчета статистики
+        function calculateStatistics(history) {
+            const stats = [];
+
+            if (history.length === 0) return stats;
+
+            // Основная статистика
+            const totalCalculations = history.length;
+            const totalCost = history.reduce((sum, item) => sum + item.price, 0);
+            const avgCost = totalCost / totalCalculations;
+
+            const betonCalculations = history.filter(item => item.type === 'beton').length;
+            const brusCalculations = history.filter(item => item.type === 'brus').length;
+
+            const avgArea = history.reduce((sum, item) => sum + item.area, 0) / totalCalculations;
+
+            // Статистика по детализации
+            let totalFoundation = 0;
+            let totalWalls = 0;
+            let totalRoof = 0;
+            let totalFinishing = 0;
+            let totalEngineering = 0;
+
+            history.forEach(item => {
+                if (item.breakdown && item.breakdown.items) {
+                    item.breakdown.items.forEach(detail => {
+                        const detailName = detail.name.toLowerCase();
+                        if (detailName.includes('фундамент')) totalFoundation += detail.cost;
+                        else if (detailName.includes('стен') || detailName.includes('перекрыт')) totalWalls += detail.cost;
+                        else if (detailName.includes('кровл')) totalRoof += detail.cost;
+                        else if (detailName.includes('отдел')) totalFinishing += detail.cost;
+                        else if (detailName.includes('инженер') || detailName.includes('систем')) totalEngineering += detail.cost;
+                    });
+                }
+            });
+
+            // Формируем данные для Excel
+            stats.push(
+                { 'Показатель': 'Общая статистика', 'Значение': '' },
+                { 'Показатель': 'Всего расчетов', 'Значение': totalCalculations },
+                { 'Показатель': 'Расчетов бетонных домов', 'Значение': betonCalculations },
+                { 'Показатель': 'Расчетов деревянных домов', 'Значение': brusCalculations },
+                { 'Показатель': 'Общая сумма всех расчетов (₽)', 'Значение': totalCost.toLocaleString('ru-RU') },
+                { 'Показатель': 'Средняя стоимость расчета (₽)', 'Значение': Math.round(avgCost).toLocaleString('ru-RU') },
+                { 'Показатель': 'Средняя площадь (м²)', 'Значение': avgArea.toFixed(1) },
+
+                { 'Показатель': '', 'Значение': '' },
+                { 'Показатель': 'Распределение затрат', 'Значение': '' },
+                { 'Показатель': 'Фундамент (₽)', 'Значение': totalFoundation.toLocaleString('ru-RU') },
+                { 'Показатель': 'Стены и перекрытия (₽)', 'Значение': totalWalls.toLocaleString('ru-RU') },
+                { 'Показатель': 'Кровля (₽)', 'Значение': totalRoof.toLocaleString('ru-RU') },
+                { 'Показатель': 'Отделочные работы (₽)', 'Значение': totalFinishing.toLocaleString('ru-RU') },
+                { 'Показатель': 'Инженерные системы (₽)', 'Значение': totalEngineering.toLocaleString('ru-RU') },
+
+                { 'Показатель': '', 'Значение': '' },
+                { 'Показатель': 'Процентное соотношение', 'Значение': '' },
+                { 'Показатель': 'Фундамент (%)', 'Значение': ((totalFoundation / totalCost) * 100).toFixed(1) },
+                { 'Показатель': 'Стены и перекрытия (%)', 'Значение': ((totalWalls / totalCost) * 100).toFixed(1) },
+                { 'Показатель': 'Кровля (%)', 'Значение': ((totalRoof / totalCost) * 100).toFixed(1) },
+                { 'Показатель': 'Отделочные работы (%)', 'Значение': ((totalFinishing / totalCost) * 100).toFixed(1) },
+                { 'Показатель': 'Инженерные системы (%)', 'Значение': ((totalEngineering / totalCost) * 100).toFixed(1) },
+
+                { 'Показатель': '', 'Значение': '' },
+                { 'Показатель': 'Дата экспорта', 'Значение': new Date().toLocaleDateString('ru-RU') },
+                { 'Показатель': 'Время экспорта', 'Значение': new Date().toLocaleTimeString('ru-RU') },
+                { 'Показатель': 'Экспортировано расчетов', 'Значение': totalCalculations }
+            );
+
+            return stats;
+        }
+
+        // Экспорт одного расчета в отдельный файл
+        function exportSingleCalculation(calculationId) {
+            const history = getHistory();
+            const calculation = history.find(item => item.id === calculationId);
+
+            if (!calculation) {
+                showMessage('dashboardMessage', 'Расчет не найден', 'error');
+                return;
+            }
+
+            const wb = XLSX.utils.book_new();
+
+            // Лист 1: Основная информация
+            const mainData = [{
+                'Тип дома': calculation.typeName,
+                'Площадь (м²)': calculation.area,
+                'Общая стоимость (₽)': calculation.price,
+                'Скидка (%)': calculation.breakdown?.discount || 0,
+                'Дата расчета': new Date(calculation.date).toLocaleDateString('ru-RU'),
+                'Время расчета': new Date(calculation.date).toLocaleTimeString('ru-RU'),
+                'ID расчета': calculation.id
+            }];
+
+            const ws1 = XLSX.utils.json_to_sheet(mainData);
+            XLSX.utils.book_append_sheet(wb, ws1, 'Основное');
+
+            // Лист 2: Детализация стоимости
+            if (calculation.breakdown && calculation.breakdown.items) {
+                const detailsData = calculation.breakdown.items.map(item => ({
+                    'Компонент': item.name,
+                    'Стоимость (₽)': item.cost,
+                    'Доля от стоимости (%)': item.percent,
+                    'Описание работ': item.description,
+                    'Стоимость за м² (₽)': Math.round(item.cost / calculation.area)
+                }));
+
+                // Добавляем итоговую строку
+                detailsData.push({
+                    'Компонент': 'ИТОГО',
+                    'Стоимость (₽)': calculation.price,
+                    'Доля от стоимости (%)': '100%',
+                    'Описание работ': `Площадь: ${calculation.area}м², Скидка: ${calculation.breakdown?.discount || 0}%`,
+                    'Стоимость за м² (₽)': Math.round(calculation.price / calculation.area)
+                });
+
+                const ws2 = XLSX.utils.json_to_sheet(detailsData);
+                XLSX.utils.book_append_sheet(wb, ws2, 'Детализация');
+            }
+
+            // Генерируем имя файла
+            const fileName = `СтройПрофи_Расчет_${calculation.typeName}_${calculation.area}м²_${new Date(calculation.date).toLocaleDateString('ru-RU').replace(/\./g, '-')}.xlsx`;
+
+            // Сохраняем файл
+            XLSX.writeFile(wb, fileName);
+
+            showExportNotification(`Расчет "${calculation.typeName}" сохранен!`);
+        }
+
+        // Подготовка данных для Excel с детализацией
+        function prepareExcelData(history) {
+            // Основные данные
+            const summaryData = [];
+
+            // Детализированные данные
+            const detailData = [];
+
+            // Лист с полной детализацией по каждому расчету
+            const fullDetailsData = [];
+
+            history.forEach((item, index) => {
+                const calculationNumber = index + 1;
+
+                // Основная информация о расчете
+                summaryData.push({
+                    '№': calculationNumber,
+                    'Тип дома': item.typeName,
+                    'Площадь (м²)': item.area,
+                    'Общая стоимость (₽)': item.price,
+                    'Скидка (%)': item.breakdown?.discount || 0,
+                    'Стоимость со скидкой (₽)': item.price,
+                    'Дата расчета': new Date(item.date).toLocaleDateString('ru-RU'),
+                    'Время расчета': new Date(item.date).toLocaleTimeString('ru-RU'),
+                    'ID расчета': item.id
+                });
+
+                // Детализация если есть
+                if (item.breakdown && item.breakdown.items) {
+                    // Заголовок для этого расчета в детализации
+                    detailData.push({
+                        'Расчет №': calculationNumber,
+                        'Тип дома': item.typeName,
+                        'Компонент': `=== РАСЧЕТ №${calculationNumber} ===`,
+                        'Стоимость (₽)': '',
+                        'Доля (%)': '',
+                        'Описание': `Площадь: ${item.area}м², Скидка: ${item.breakdown?.discount || 0}%`
+                    });
+
+                    // Детали по каждому компоненту
+                    item.breakdown.items.forEach((detail, detailIndex) => {
+                        detailData.push({
+                            'Расчет №': calculationNumber,
+                            'Тип дома': item.typeName,
+                            'Компонент': detail.name,
+                            'Стоимость (₽)': detail.cost,
+                            'Доля (%)': detail.percent,
+                            'Описание': detail.description
+                        });
+
+                        // Полная детализация для отдельного листа
+                        fullDetailsData.push({
+                            'Расчет №': calculationNumber,
+                            'ID расчета': item.id,
+                            'Тип дома': item.typeName,
+                            'Площадь (м²)': item.area,
+                            'Компонент': detail.name,
+                            'Стоимость компонента (₽)': detail.cost,
+                            'Доля от стоимости (%)': detail.percent,
+                            'Описание работ': detail.description,
+                            'Базовая стоимость (₽)': Math.round(detail.cost / (1 - (item.breakdown?.discount || 0) / 100)),
+                            'Скидка (%)': item.breakdown?.discount || 0,
+                            'Дата расчета': new Date(item.date).toLocaleDateString('ru-RU'),
+                            'Время расчета': new Date(item.date).toLocaleTimeString('ru-RU')
+                        });
+                    });
+
+                    // Итоговая строка для этого расчета
+                    detailData.push({
+                        'Расчет №': calculationNumber,
+                        'Тип дома': item.typeName,
+                        'Компонент': 'ИТОГО ПО РАСЧЕТУ',
+                        'Стоимость (₽)': item.price,
+                        'Доля (%)': '100%',
+                        'Описание': `Общая стоимость с учетом скидки ${item.breakdown?.discount || 0}%`
+                    });
+
+                    // Пустая строка-разделитель
+                    detailData.push({
+                        'Расчет №': '',
+                        'Тип дома': '',
+                        'Компонент': '',
+                        'Стоимость (₽)': '',
+                        'Доля (%)': '',
+                        'Описание': ''
+                    });
+                }
+            });
+
+            // Добавляем итоговую строку в основную таблицу
+            if (summaryData.length > 0) {
+                const totalCost = summaryData.reduce((sum, item) => sum + (item['Общая стоимость (₽)'] || 0), 0);
+                const avgArea = summaryData.reduce((sum, item) => sum + (item['Площадь (м²)'] || 0), 0) / summaryData.length;
+                const totalDiscount = summaryData.reduce((sum, item) => sum + (item['Скидка (%)'] || 0), 0) / summaryData.length;
+
+                summaryData.push({
+                    '№': 'ИТОГО',
+                    'Тип дома': '',
+                    'Площадь (м²)': `Средняя: ${avgArea.toFixed(1)}`,
+                    'Общая стоимость (₽)': totalCost,
+                    'Скидка (%)': `Средняя: ${totalDiscount.toFixed(1)}%`,
+                    'Стоимость со скидкой (₽)': totalCost,
+                    'Дата расчета': `Всего расчетов: ${summaryData.length - 1}`,
+                    'Время расчета': '',
+                    'ID расчета': ''
+                });
+            }
+
+            return {
+                summary: summaryData,
+                details: detailData,
+                fullDetails: fullDetailsData
+            };
+        }
+
+        // Показать уведомление об экспорте
+        function showExportNotification(message) {
+            let notification = document.getElementById('exportNotification');
+
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'exportNotification';
+                notification.className = 'export-notification';
+                document.body.appendChild(notification);
+            }
+
+            notification.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <span>${message}</span>
+    `;
+
+            notification.classList.add('show');
+
+            // Автоматически скрываем через 4 секунды
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Альтернативная версия - простой CSV экспорт (без библиотек)
+        function exportToCSV() {
+            const history = getHistory();
+
+            if (history.length === 0) {
+                showMessage('dashboardMessage', 'Нет данных для экспорта', 'error');
+                return;
+            }
+
+            // Заголовки CSV
+            let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+            csvContent += "Тип дома,Площадь (м²),Стоимость (₽),Скидка (%),Дата\n";
+
+            // Данные
+            history.forEach(item => {
+                const row = [
+                    `"${item.typeName}"`,
+                    item.area,
+                    item.price,
+                    item.breakdown?.discount || 0,
+                    `"${new Date(item.date).toLocaleDateString('ru-RU')}"`
+                ].join(',');
+
+                csvContent += row + "\n";
+            });
+
+            // Создаем ссылку для скачивания
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `СтройПрофи_Расчеты_${new Date().toLocaleDateString('ru-RU').replace(/\./g, '-')}.csv`);
+            document.body.appendChild(link);
+
+            link.click();
+            document.body.removeChild(link);
+
+            showExportNotification('CSV файл сохранен!');
+        }
+
+        // Добавляем кнопку для CSV экспорта (опционально)
+        function addCSVButton() {
+            const csvBtn = document.createElement('button');
+            csvBtn.className = 'export-btn';
+            csvBtn.style.background = '#3498db';
+            csvBtn.innerHTML = '<i class="fas fa-file-csv"></i> CSV';
+            csvBtn.onclick = exportToCSV;
+            csvBtn.title = 'Сохранить в CSV';
+
+            const actions = document.querySelector('.history-actions');
+            if (actions) {
+                actions.appendChild(csvBtn);
+            }
+        }
+
+        // В init добавляем кнопку CSV
+        // addCSVButton(); // Раскомментируй если нужен CSV
+
+        window.__STROYPROFI_AUTH = {
+            saveCalculation: saveCalculation,
+            getCurrentUser: () => {
+                // Всегда проверяем актуальность из localStorage
+                const user = localStorage.getItem('currentUser');
+                return user ? JSON.parse(user) : null;
+            },
+            isAuthenticated: () => {
+                return !!localStorage.getItem('currentUser');
+            }
+        };
+    </script>
+</body>
+
+</html>

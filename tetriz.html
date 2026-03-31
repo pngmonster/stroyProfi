@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тетрис - СтройПрофи</title>
+    <style>
+        :root {
+            --primary-color: #ff6b35;
+            --secondary-color: #1a1a1a;
+            --accent-color: #ff6b35;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-light);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        body.game-active {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .main-content {
+            flex: 3;
+            min-width: 300px;
+        }
+
+        .game-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .game-board {
+            flex: 0 0 auto;
+        }
+
+        .game-info {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        #tetris {
+            border: 3px solid var(--primary-color);
+            border-radius: 8px;
+            background: #1a1a1a;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .stats {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+
+        .discount-info {
+            background: linear-gradient(135deg, #ff6b35, #ff8e53);
+            color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .discount-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .discount-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .discount-progress {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .discount-progress-bar {
+            height: 100%;
+            background: white;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .controls {
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 25px;
+        }
+
+        .controls h3 {
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+
+        .key-list {
+            list-style: none;
+        }
+
+        .key-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .key-item:last-child {
+            border-bottom: none;
+        }
+
+        .key {
+            background: var(--primary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .key-action {
+            color: var(--text-dark);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-light);
+            color: var(--text-dark);
+            border: 2px solid #e0e0e0;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Стили для карусели домов */
+        .houses-sidebar {
+            flex: 1;
+            min-width: 300px;
+            background: var(--bg-light);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            height: fit-content;
+        }
+
+        .houses-sidebar h3 {
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+            text-align: center;
+            font-size: 1.4rem;
+        }
+
+        .houses-carousel {
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+        }
+
+        .carousel-track {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: scrollHouses 20s linear infinite;
+        }
+
+        .carousel-track.paused {
+            animation-play-state: paused;
+        }
+
+        .house-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .house-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .house-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .house-info {
+            padding: 15px;
+        }
+
+        .house-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .house-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .carousel-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .carousel-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-btn:hover {
+            background: #e55a2b;
+            transform: scale(1.1);
+        }
+
+        .game-message {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .game-message.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-content {
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        .game-message.active .message-content {
+            transform: translateY(0);
+        }
+
+        .message-content h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .message-content p {
+            color: var(--text-light);
+            margin-bottom: 25px;
+        }
+
+        .back-link {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: var(--border-radius);
+            border: 2px solid #e0e0e0;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .back-link:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Анимация карусели */
+        @keyframes scrollHouses {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-50%);
+            }
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 992px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .houses-sidebar {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            .game-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            #tetris {
+                width: 300px !important;
+                height: 600px !important;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #tetris {
+                width: 250px !important;
+                height: 500px !important;
+            }
+
+            .logo {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            #tetris {
+                width: 220px !important;
+                height: 440px !important;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="logo">СтройПрофи</h1>
+            <p class="subtitle">Собери тетрис и получи скидку на строительство дома!</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="main-content">
+                <div class="game-wrapper">
+                    <div class="game-board">
+                        <canvas id="tetris" width="300" height="600"></canvas>
+                    </div>
+
+                    <div class="game-info">
+                        <div class="discount-info">
+                            <h3>Ваша скидка</h3>
+                            <div class="discount-value" id="discountValue">0%</div>
+                            <div class="discount-progress">
+                                <div class="discount-progress-bar" id="discountProgress"></div>
+                            </div>
+                            <p>Соберите линии, чтобы увеличить скидку!</p>
+                            <p><small>Максимальная скидка: 10%</small></p>
+                        </div>
+
+                        <div class="stats">
+                            <div class="stat-item">
+                                <span class="stat-label">Очки</span>
+                                <span class="stat-value" id="score">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Линии</span>
+                                <span class="stat-value" id="lines">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Уровень</span>
+                                <span class="stat-value" id="level">1</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label">Следующая фигура</span>
+                                <canvas class="stat-value" id="nextPiece" width="80" height="80"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="controls">
+                            
+
+                            <div class="buttons">
+                                <button class="btn btn-primary" onclick="startGame()">
+                                    <i class="fas fa-play"></i> Начать игру
+                                </button>
+                                <button class="btn btn-secondary" onclick="pauseGame()">
+                                    <i class="fas fa-pause"></i> Пауза
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Вернуться на главную
+                </a>
+            </div>
+
+            <!-- Карусель домов -->
+            <div class="houses-sidebar">
+                <h3>Наши проекты домов</h3>
+                <div class="houses-carousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Карточки будут добавлены через JavaScript -->
+                    </div>
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn" onclick="pauseCarousel()">
+                        <i class="fas fa-pause"></i>
+                    </button>
+                    <button class="carousel-btn" onclick="playCarousel()">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-message" id="gameOver">
+        <div class="message-content">
+            <h2>Игра окончена!</h2>
+            <p>Ваш результат: <span id="finalScore">0</span> очков</p>
+            <p>Собрано линий: <span id="finalLines">0</span></p>
+            <p>Ваша скидка: <span id="finalDiscount">0%</span></p>
+            <div class="buttons" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="startGame()">
+                    <i class="fas fa-redo"></i> Играть снова
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-message" id="gamePaused">
+        <div class="message-content">
+            <h2>Игра на паузе</h2>
+            <p>Нажмите P для продолжения</p>
+            <div class="buttons" style="margin-top: 20px;">
+                <button class="btn btn-primary" onclick="pauseGame()">
+                    <i class="fas fa-play"></i> Продолжить
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Константы игры
+        const COLS = 10;
+        const ROWS = 20;
+        const BLOCK_SIZE = 22;
+        const COLORS = [
+            null,
+            '#FF6B35', // Оранжевый
+            '#2D5BFF', // Синий
+            '#FFD700', // Желтый
+            '#00CED1', // Бирюзовый
+            '#9370DB', // Фиолетовый
+            '#32CD32', // Зеленый
+            '#FF4500'  // Красный
+        ];
+
+        // Фигуры тетриса
+        const PIECES = [
+            null,
+            [
+                [0, 0, 0, 0],
+                [1, 1, 1, 1],
+                [0, 0, 0, 0],
+                [0, 0, 0, 0]
+            ],
+            [
+                [2, 0, 0],
+                [2, 2, 2],
+                [0, 0, 0]
+            ],
+            [
+                [0, 0, 3],
+                [3, 3, 3],
+                [0, 0, 0]
+            ],
+            [
+                [4, 4],
+                [4, 4]
+            ],
+            [
+                [0, 5, 5],
+                [5, 5, 0],
+                [0, 0, 0]
+            ],
+            [
+                [0, 6, 0],
+                [6, 6, 6],
+                [0, 0, 0]
+            ],
+            [
+                [7, 7, 0],
+                [0, 7, 7],
+                [0, 0, 0]
+            ]
+        ];
+
+        // Данные для карусели домов
+        const houses = [
+            {
+                id: 1,
+                name: "Дом из бетона",
+                image: "images/home1.jpg",
+                price: "от 3 500 000 ₽"
+            },
+            {
+                id: 2,
+                name: "Дом из бруса",
+                image: "images/home2.jpg",
+                price: "от 2 800 000 ₽"
+            },
+            {
+                id: 3,
+                name: "Кирпичный дом",
+                image: "images/home3.jpg",
+                price: "от 4 200 000 ₽"
+            },
+            {
+                id: 5,
+                name: "Дом из газобетона",
+                image: "images/home5.jpg",
+                price: "от 3 100 000 ₽"
+            },
+            {
+                id: 6,
+                name: "Загородный коттедж",
+                image: "images/home4.jpg",
+                price: "от 5 600 000 ₽"
+            }
+        ];
+
+        // Переменные игры
+        let canvas, ctx, nextCanvas, nextCtx;
+        let board = [];
+        let currentPiece, nextPiece;
+        let score = 0, lines = 0, level = 1;
+        let discount = 0;
+        let gameOver = false;
+        let paused = false;
+        let dropInterval, dropStart = Date.now();
+        let isBodyFixed = false;
+
+        // Инициализация
+        function init() {
+            canvas = document.getElementById('tetris');
+            ctx = canvas.getContext('2d');
+            nextCanvas = document.getElementById('nextPiece');
+            nextCtx = nextCanvas.getContext('2d');
+
+            // Устанавливаем размеры канваса
+            canvas.width = COLS * BLOCK_SIZE;
+            canvas.height = ROWS * BLOCK_SIZE;
+
+            // Масштабирование для retina дисплеев
+            const scale = window.devicePixelRatio || 1;
+            canvas.width = COLS * BLOCK_SIZE * scale;
+            canvas.height = ROWS * BLOCK_SIZE * scale;
+            ctx.scale(scale, scale);
+
+            // Инициализация игрового поля
+            createBoard();
+
+            // Создаем первую фигуру
+            currentPiece = createPiece();
+            nextPiece = createPiece();
+
+            // Инициализация карусели
+            initCarousel();
+
+            // Отображаем следующую фигуру
+            drawNextPiece();
+
+            // Обновляем скидку
+            updateDiscount();
+
+            // Стартуем игровой цикл
+            gameLoop();
+
+            // Вешаем обработчики клавиш
+            document.addEventListener('keydown', handleKeyPress);
+        }
+
+        // Инициализация карусели
+        function initCarousel() {
+            const carouselTrack = document.getElementById('carouselTrack');
+            
+            // Добавляем дубликаты для бесконечной прокрутки
+            const allHouses = [...houses, ...houses];
+            
+            allHouses.forEach(house => {
+                const houseCard = document.createElement('div');
+                houseCard.className = 'house-card';
+                houseCard.innerHTML = `
+                    <img src="${house.image}" alt="${house.name}" class="house-image">
+                    <div class="house-info">
+                        <h4 class="house-title">${house.name}</h4>
+                        <div class="house-price">${house.price}</div>
+                    </div>
+                `;
+                carouselTrack.appendChild(houseCard);
+            });
+        }
+
+        // Создание игрового поля
+        function createBoard() {
+            board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+        }
+
+        // Создание случайной фигуры
+        function createPiece() {
+            const pieceId = Math.floor(Math.random() * 7) + 1;
+            return {
+                matrix: PIECES[pieceId],
+                color: COLORS[pieceId],
+                pieceId: pieceId,
+                pos: { x: Math.floor(COLS / 2) - 1, y: 0 }
+            };
+        }
+
+        // Отрисовка игрового поля
+        function drawBoard() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Рисуем сетку
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 1;
+
+            for (let y = 0; y < ROWS; y++) {
+                for (let x = 0; x < COLS; x++) {
+                    // Фон клетки
+                    ctx.fillStyle = board[y][x] ? COLORS[board[y][x]] : '#1a1a1a';
+                    ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+
+                    // Обводка клетки
+                    ctx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+
+                    // Градиент для заполненных клеток
+                    if (board[y][x]) {
+                        const gradient = ctx.createLinearGradient(
+                            x * BLOCK_SIZE, y * BLOCK_SIZE,
+                            x * BLOCK_SIZE + BLOCK_SIZE, y * BLOCK_SIZE + BLOCK_SIZE
+                        );
+                        gradient.addColorStop(0, 'rgba(255,255,255,0.2)');
+                        gradient.addColorStop(1, 'rgba(0,0,0,0.2)');
+                        ctx.fillStyle = gradient;
+                        ctx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                    }
+                }
+            }
+        }
+
+        // Отрисовка текущей фигуры
+        function drawPiece() {
+            ctx.fillStyle = currentPiece.color;
+
+            currentPiece.matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        const posX = (currentPiece.pos.x + x) * BLOCK_SIZE;
+                        const posY = (currentPiece.pos.y + y) * BLOCK_SIZE;
+
+                        // Основной блок
+                        ctx.fillRect(posX, posY, BLOCK_SIZE, BLOCK_SIZE);
+
+                        // Обводка
+                        ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(posX, posY, BLOCK_SIZE, BLOCK_SIZE);
+
+                        // Свечение
+                        ctx.shadowColor = currentPiece.color;
+                        ctx.shadowBlur = 10;
+                        ctx.fillRect(posX, posY, BLOCK_SIZE, BLOCK_SIZE);
+                        ctx.shadowBlur = 0;
+                    }
+                });
+            });
+        }
+
+        // Отрисовка следующей фигуры
+        function drawNextPiece() {
+            nextCtx.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+            nextCtx.fillStyle = nextPiece.color;
+
+            // Центрируем фигуру
+            const offsetX = (nextCanvas.width - nextPiece.matrix[0].length * 20) / 2;
+            const offsetY = (nextCanvas.height - nextPiece.matrix.length * 20) / 2;
+
+            nextPiece.matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        nextCtx.fillRect(offsetX + x * 20, offsetY + y * 20, 18, 18);
+                        nextCtx.strokeStyle = 'rgba(255,255,255,0.3)';
+                        nextCtx.strokeRect(offsetX + x * 20, offsetY + y * 20, 18, 18);
+                    }
+                });
+            });
+        }
+
+        // Проверка столкновений
+        function collide(matrix, pos) {
+            for (let y = 0; y < matrix.length; y++) {
+                for (let x = 0; x < matrix[y].length; x++) {
+                    if (matrix[y][x] !== 0) {
+                        const newX = pos.x + x;
+                        const newY = pos.y + y;
+
+                        if (newX < 0 || newX >= COLS || newY >= ROWS) {
+                            return true;
+                        }
+
+                        if (newY >= 0 && board[newY][newX]) {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
+        // Вращение фигуры
+        function rotate(matrix) {
+            const N = matrix.length;
+            const rotated = Array.from({ length: N }, () => Array(N).fill(0));
+
+            for (let y = 0; y < N; y++) {
+                for (let x = 0; x < N; x++) {
+                    rotated[x][N - 1 - y] = matrix[y][x];
+                }
+            }
+
+            return rotated;
+        }
+
+        // Объединение фигуры с полем
+        function merge() {
+            currentPiece.matrix.forEach((row, y) => {
+                row.forEach((value, x) => {
+                    if (value !== 0) {
+                        const boardY = currentPiece.pos.y + y;
+                        if (boardY >= 0) {
+                            board[boardY][currentPiece.pos.x + x] = currentPiece.pieceId;
+                        }
+                    }
+                });
+            });
+        }
+
+        // Удаление заполненных линий
+        function sweep() {
+            let lineCount = 0;
+
+            outer: for (let y = ROWS - 1; y >= 0; y--) {
+                for (let x = 0; x < COLS; x++) {
+                    if (board[y][x] === 0) {
+                        continue outer;
+                    }
+                }
+
+                // Линия заполнена
+                const row = board.splice(y, 1)[0].fill(0);
+                board.unshift(row);
+                lineCount++;
+                y++;
+            }
+
+            if (lineCount > 0) {
+                // Обновляем счет
+                lines += lineCount;
+                score += lineCount * 100 * level;
+                level = Math.floor(lines / 10) + 1;
+
+                // Увеличиваем скидку на 1% за каждую линию, но не более 10%
+                discount = Math.min(10, discount + lineCount);
+                updateDiscount();
+
+                updateStats();
+
+                // Эффект анимации
+                if (lineCount === 4) {
+                    showEffect('ТЕТРИС! +400');
+                }
+                
+                // Эффект для скидки
+                if (discount <= 10) {
+                    showDiscountEffect(`+${lineCount}% к скидке!`);
+                }
+            }
+        }
+
+        // Обновление статистики
+        function updateStats() {
+            document.getElementById('score').textContent = score;
+            document.getElementById('lines').textContent = lines;
+            document.getElementById('level').textContent = level;
+        }
+
+        // Обновление отображения скидки
+        function updateDiscount() {
+            document.getElementById('discountValue').textContent = `${discount}%`;
+            document.getElementById('discountProgress').style.width = `${discount * 10}%`;
+        }
+
+        // Движение фигуры вниз
+        function drop() {
+            currentPiece.pos.y++;
+
+            if (collide(currentPiece.matrix, currentPiece.pos)) {
+                currentPiece.pos.y--;
+                merge();
+                sweep();
+                currentPiece = nextPiece;
+                nextPiece = createPiece();
+                drawNextPiece();
+
+                if (collide(currentPiece.matrix, currentPiece.pos)) {
+                    gameOver = true;
+                    showGameOver();
+                }
+            }
+
+            dropStart = Date.now();
+        }
+
+        // Быстрое падение
+        function hardDrop() {
+            while (!collide(currentPiece.matrix, { x: currentPiece.pos.x, y: currentPiece.pos.y + 1 })) {
+                currentPiece.pos.y++;
+            }
+            drop();
+        }
+
+        // Движение влево/вправо
+        function move(dir) {
+            currentPiece.pos.x += dir;
+
+            if (collide(currentPiece.matrix, currentPiece.pos)) {
+                currentPiece.pos.x -= dir;
+            }
+        }
+
+        // Вращение фигуры
+        function rotatePiece() {
+            const rotated = rotate(currentPiece.matrix);
+
+            if (!collide(rotated, currentPiece.pos)) {
+                currentPiece.matrix = rotated;
+            }
+        }
+
+        // Фиксация/разблокировка прокрутки страницы
+        function fixBodyScroll(fix) {
+            if (fix && !isBodyFixed) {
+                document.body.classList.add('game-active');
+                isBodyFixed = true;
+            } else if (!fix && isBodyFixed) {
+                document.body.classList.remove('game-active');
+                isBodyFixed = false;
+            }
+        }
+
+        // Обработка нажатий клавиш
+        function handleKeyPress(event) {
+            if (gameOver) return;
+
+            // Фиксируем скролл при активной игре
+            if (!paused) {
+                fixBodyScroll(true);
+            }
+
+            switch (event.keyCode) {
+                case 37: // Влево
+                    event.preventDefault();
+                    if (!paused) move(-1);
+                    break;
+                case 39: // Вправо
+                    event.preventDefault();
+                    if (!paused) move(1);
+                    break;
+                case 40: // Вниз
+                    event.preventDefault();
+                    if (!paused) drop();
+                    break;
+                case 38: // Вверх
+                    event.preventDefault();
+                    if (!paused) rotatePiece();
+                    break;
+                case 32: // Пробел
+                    event.preventDefault();
+                    if (!paused) hardDrop();
+                    break;
+                case 80: // P
+                    event.preventDefault();
+                    pauseGame();
+                    break;
+                case 27: // ESC
+                    event.preventDefault();
+                    if (paused) pauseGame();
+                    break;
+            }
+        }
+
+        // Игровой цикл
+        function gameLoop() {
+            if (!paused && !gameOver) {
+                const now = Date.now();
+                const delta = now - dropStart;
+
+                if (delta > 1000 / level) {
+                    drop();
+                }
+
+                drawBoard();
+                drawPiece();
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Показать эффект
+        function showEffect(text) {
+            const effect = document.createElement('div');
+            effect.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 2rem;
+                font-weight: 700;
+                color: ${COLORS[1]};
+                text-shadow: 0 0 10px rgba(255, 107, 53, 0.7);
+                z-index: 100;
+                animation: float 1s ease-out forwards;
+            `;
+
+            effect.textContent = text;
+            document.querySelector('.container').appendChild(effect);
+
+            setTimeout(() => {
+                effect.remove();
+            }, 1000);
+        }
+
+        // Показать эффект скидки
+        function showDiscountEffect(text) {
+            const effect = document.createElement('div');
+            effect.style.cssText = `
+                position: absolute;
+                top: 20%;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: #32CD32;
+                text-shadow: 0 0 10px rgba(50, 205, 50, 0.7);
+                z-index: 100;
+                animation: floatDiscount 1.5s ease-out forwards;
+            `;
+
+            effect.textContent = text;
+            document.querySelector('.container').appendChild(effect);
+
+            setTimeout(() => {
+                effect.remove();
+            }, 1500);
+        }
+
+        // Показать экран Game Over
+        function showGameOver() {
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('finalLines').textContent = lines;
+            document.getElementById('finalDiscount').textContent = discount + '%';
+            document.getElementById('gameOver').classList.add('active');
+            fixBodyScroll(false);
+        }
+
+        // Начать новую игру
+        function startGame() {
+            createBoard();
+            score = 0;
+            lines = 0;
+            level = 1;
+            discount = 0;
+            gameOver = false;
+            paused = false;
+
+            currentPiece = createPiece();
+            nextPiece = createPiece();
+            drawNextPiece();
+
+            updateStats();
+            updateDiscount();
+
+            document.getElementById('gameOver').classList.remove('active');
+            document.getElementById('gamePaused').classList.remove('active');
+            
+            // Разблокируем скролл перед началом новой игры
+            fixBodyScroll(false);
+        }
+
+        // Пауза/продолжить
+        function pauseGame() {
+            paused = !paused;
+            document.getElementById('gamePaused').classList.toggle('active', paused);
+            
+            if (paused) {
+                fixBodyScroll(false);
+                pauseCarousel();
+            } else {
+                fixBodyScroll(true);
+                playCarousel();
+            }
+        }
+
+        // Управление каруселью
+        function pauseCarousel() {
+            document.querySelector('.carousel-track').classList.add('paused');
+        }
+
+        function playCarousel() {
+            document.querySelector('.carousel-track').classList.remove('paused');
+        }
+
+        // Инициализация при загрузке
+        window.addEventListener('load', init);
+        
+        // Восстанавливаем скролл при клике вне игры
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.btn') || event.target.closest('#tetris')) {
+                return;
+            }
+            fixBodyScroll(false);
+        });
+    </script>
+</body>
+
+</html>
