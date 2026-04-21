@@ -876,6 +876,8 @@ section {
     position: relative;
     max-width: 600px;
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Адаптивность */

@@ -28,7 +28,7 @@ $total_salary = $worker->salary;
 <body>
     <div class="admin-container">
         <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
-            <h1>👋 Здравствуйте, <?= htmlspecialchars($worker->full_name) ?>!</h1>
+            <h1>Здравствуйте, <?= htmlspecialchars($worker->full_name) ?>!</h1>
             <a href="logout.php" style="background: #d32f2f; color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none;">Выйти</a>
         </div>
 

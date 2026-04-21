@@ -21,7 +21,7 @@
             </div>
             <ul class="nav__menu">
                 <li>
-                    <a href="avtoriz.html">
+                    <a href="http://localhost:8000/login_client.php">
                         <i class="fas fa-user-circle"></i>
                         <span>Профиль</span>
                     </a>
@@ -70,8 +70,8 @@
                 </li>
             </ul>
             <div class="nav_contact">
-                <a href="https://wa.me/79606012895" target="_blank" class="channel-btn" title="Наш WhatsApp">
-                    <img src="images/WhatsApp_logo.png" alt="Наш канал" class="channel-logo">
+                <a href="https://vk.com/imstill4live" target="_blank" class="channel-btn" title="Наш WhatsApp">
+                    <img src="images/vk_logo.png" alt="Наш канал" class="channel-logo">
                 </a>
                 <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc" target="_blank"
                     class="channel-btn" title="Мы в MAX">
@@ -505,49 +505,169 @@
         <section id="contact" class="contact">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Контакты</h2>
+                    <h2 class="section-title">Карта</h2>
                     <p class="section-subtitle">Свяжитесь с нами для бесплатной консультации</p>
                 </div>
 
-                <!-- Обновленный блок contact__content -->
-                <div class="contact__content">
-                    <div class="contact__info">
-                        <div class="contact-item">
-                            <h3>Адрес</h3>
-                            <a href="https://yandex.ru/maps/-/CLcpqB09">г. Тула, ул. Тимирязева, 70</a>
-                        </div>
-                        <div class="contact-item">
-                            <h3>Телефон</h3>
-                            <a href="tel:+79606012895">+7 (960) 601-28-95</a>
-                        </div>
-                        <div class="contact-item">
-                            <h3>Email</h3>
-                            <a href="mailto:info@stroyprofi.ru">id.ilichev@mail.ru</a>
-                        </div>
-                        <div class="contact-item">
-                            <h3>Социальные сети</h3>
-                            <div class="social-links">
-                                <a href="https://wa.me/79606012895" target="_blank" title="Наш WhatsApp">
-                                    <img src="images/WhatsApp_logo.png" class="contact-ico" alt="WhatsApp">
-                                </a>
-                                <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc"
-                                    target="_blank" title="Мы в MAX">
-                                    <img src="images/max_logo.png" class="contact-ico" alt="MAX">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <h3>График работы</h3>
-                            <p>Пн-Пт: 9:00 - 18:00<br>Сб: 10:00 - 16:00</p>
-                        </div>
-                    </div>
 
-                    <!-- Контейнер для карты -->
-                    <div class="contact__map" id="map"></div>
-                </div>
             </div>
+
+            <div class="contact__map" id="map"></div>
+
         </section>
+
     </main>
+
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__grid">
+
+                <div class="footer__block">
+                    <h2 class="footer__logo">СтройПрофи</h2>
+                    <p class="footer__description">
+                        Профессиональные строительные решения. Надежность, качество и точность в каждой детали.
+                    </p>
+                </div>
+
+                <div class="footer__block">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><a href="https://yandex.ru/maps/-/CLcpqB09">г. Тула, ул. Тимирязева, 70</a></li>
+                        <li><a href="tel:+79606012895">+7 (960) 601-28-95</a></li>
+                        <li><a href="mailto:id.ilichev@mail.ru">id.ilichev@mail.ru</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer__block">
+                    <h3>Соцсети</h3>
+                    <div class="footer__socials">
+                        <a href="https://vk.com/imstill4live" target="_blank">
+                            <img src="images/vk_logo.png" alt="VK">
+                        </a>
+                        <a href="https://max.ru/u/f9LHodD0cOJQZ1BRpKUBfJLsAEYzyU9aucSZ10KxsFN8S6mF2BlchTpYkqc"
+                            target="_blank">
+                            <img src="images/max_logo.png" alt="MAX">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer__block">
+                    <h3>График</h3>
+                    <a>
+                        Пн–Пт: 9:00 – 18:00<br>
+                        Сб: 10:00 – 16:00
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="footer__bottom">
+                <p>© 2026 СтройПрофи. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        :root {
+            --primary-color: #ff6b35;
+            --secondary-color: #1a1a1a;
+            --accent-color: #2d5bff;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.1);
+            color: white;
+            padding: 60px 20px 30px;
+            font-family: Arial, sans-serif;
+        }
+
+        .footer__container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer__grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+        }
+
+        .footer__block h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .footer__logo {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .footer__description {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer__block ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer__block ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer__block a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer__block a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer__socials {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer__socials img {
+            width: 32px;
+            height: 32px;
+            filter: grayscale(1);
+            transition: 0.3s;
+        }
+
+        .footer__socials img:hover {
+            filter: none;
+            transform: scale(1.1);
+        }
+
+        .footer__bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 40px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .footer__block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
 
     <script src="js/script.js"></script>
 
